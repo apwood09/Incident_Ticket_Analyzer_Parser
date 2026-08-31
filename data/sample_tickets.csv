@@ -1,0 +1,8 @@
+# CSV Structure & Headers 
+ticket_id, priority, category, urgency, impact, created_at, resolved_at, resolution_time_hours, status
+
+# sample tickets dataset 
+INC00001,Low,Network,Medium,Low,2026-07-22T15:15:45Z,2026-07-22T17:15:40Z,1.0,Closed
+INC00002,High,Security,Medium,Medium,2026-08-30T10:15:20Z,2026-08-30T11:30:07Z,1.15,Resolved
+INC00003,Medium,Software,Low,Low,2026-09-03T08:30:20Z,,0.0,In Progress
+INC00004,Low,Hardware,High,High,2026-09-01T17:55:10Z,,,New 
