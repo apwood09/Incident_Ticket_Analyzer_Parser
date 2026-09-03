@@ -1,7 +1,7 @@
 from collections import defaultdict 
 from typing import Dict, List, Any 
 
-def group_tickets_by(tickets: List[Dict[str, Any]], key: str) ->Dict[str, List[Dict[str, Any]]]: 
+def group_tickets_by(tickets: List[Dict[str, Any]], key: str) -> Dict[str, List[Dict[str, Any]]]: 
     """Groups List of ticket dictionaries by specific attribute (e.g 'priority', 'resolved_time_hours')"""
     # initialize defaultdict with lists to auto group items without raising KeyErrors
     # append current ticket dictionary into its corresponding group list
@@ -41,6 +41,11 @@ def calculate_mttr(tickets: List[Dict[str, Any]], resolution_time_key: str = 're
     ]
     # guard clause: return 0.0 if the list is empty to prevent a ZeroDivisionError
     if not resolved_times: 
-        return 0.0 
+        mttr = 0.0 
+    else: 
+        mttr = sum(resolved_times) / len(resolved_times)
+
     # compute & return the average resolution time
-    return sum(resolved_times) / len(resolved_times)
+    return {
+        "mean_time_to_resolution_hours": round(mttr, 2)
+    }

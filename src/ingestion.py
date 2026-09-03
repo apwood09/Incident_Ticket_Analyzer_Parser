@@ -5,12 +5,18 @@ import csv
 from pathlib import Path 
 from typing import List, Dict
 
-def parse_tickets_csv(file_name: str = "sample_tickets.csv") -> List[Dict[str, str]]:
+def parse_tickets_csv(file_path_str: str = "sample_tickets.csv") -> List[Dict[str, str]]:
     # point script -> csv location relative to execution folder
-    file_path = Path(_file_).parent / file_name
+    file_path = Path(file_path_str)
+
+    # fallback -> if not found, automatically resolve relative to the project root folder
+    if not file_path.is_file():
+        project_root_path = Path(__file__).resolve().parent.parent / file_path_str
+        if project_root_path.is_file():
+            file_path = project_root_path
 
     # open csv file safely -> standard conetxt manager & error handling 
-    if not file_path.is_file_(): 
+    if not file_path.is_file(): 
         raise FileNotFoundError(f"Target data file not found at: {file_path.resolve()}")
     
     ticket_dataset = []
