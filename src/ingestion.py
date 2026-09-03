@@ -19,16 +19,25 @@ def parse_tickets_csv(file_path_str: str = "sample_tickets.csv") -> List[Dict[st
     if not file_path.is_file(): 
         raise FileNotFoundError(f"Target data file not found at: {file_path.resolve()}")
     
+    print(f"DEBUG: Successfully opening file at {file_path.resolve()}")
     ticket_dataset = []
 
-    with open(file_path, mode="r", encoding="utf-8", newline="") as csv_file: 
+    with open(file_path, mode="r", encoding="utf-8-sig", newline="") as csv_file: 
         # convert text blocks -> structural row dictionaries mapping headers as keys 
-        csv_reader = csv.DictReader(csv_file)
+        valid_lines = [line for line in csv_file if line.strip() and not line.strip().startswith("#")]
+        csv_reader = csv.DictReader(valid_lines)
 
         # pack all generated dictionary elements together into singular array list 
         for row in csv_reader: 
-            # clean structural trailing spaces automatcially if present 
+            # skip empty rows where all column values are blank or None
+            if not row or not any(row.values()):
+                continue
+
             clean_row = {str(k).strip(): str(v).strip() for k, v in row.items() if k is not None}
-            ticket_dataset.append(clean_row)
-    
+
+            # ensure valid ticket row (must have ticket_id)
+            if clean_row.get("ticket_id"):
+                ticket_dataset.append(clean_row)
+
+    print(f"DEBUG: Total tickets loaded: {len(ticket_dataset)}")
     return ticket_dataset
