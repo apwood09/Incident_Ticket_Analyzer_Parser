@@ -25,7 +25,6 @@ def main():
     # initialize command-line argument parser
     parser = argparse.ArgumentParser(description="Generate a terminal-based performance dashboard.")
     # define required '--file' argument to accept the target data path
-    parser.add_argument()
     parser.add_argument(
         "--file", 
         type=str, 
